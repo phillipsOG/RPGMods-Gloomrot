@@ -74,7 +74,7 @@ public class WeaponLevelSystem_Spawn_Patch
                     if (!entityManager.HasComponent<PlayerCharacter>(Owner)) continue;
 
                     PlayerCharacter playerCharacter = entityManager.GetComponentData<PlayerCharacter>(Owner);
-                    Entity User = playerCharacter.UserEntity._Entity;
+                    Entity User = playerCharacter.UserEntity;
 
                     Helper.ApplyBuff(User, Owner, Database.Buff.Buff_VBlood_Perk_Moose);
                 }
@@ -133,7 +133,7 @@ public class SpellLevelSystem_Spawn_Patch
                 if (PvPSystem.isPunishEnabled && !ExperienceSystem.isEXPActive) PvPSystem.OnEquipChange(Owner);
                 if (ExperienceSystem.isEXPActive)
                 {
-                    Entity User = __instance.EntityManager.GetComponentData<PlayerCharacter>(Owner).UserEntity._Entity;
+                    Entity User = __instance.EntityManager.GetComponentData<PlayerCharacter>(Owner).UserEntity;
                     ulong SteamID = __instance.EntityManager.GetComponentData<User>(User).PlatformId;
                     ExperienceSystem.SetLevel(Owner, User, SteamID);
                 }
@@ -177,7 +177,7 @@ public class SpellLevelSystem_Destroy_Patch
                     Entity Owner = entityManager.GetComponentData<EntityOwner>(entity).Owner;
                     if (entityManager.HasComponent<PlayerCharacter>(Owner))
                     {
-                        Entity User = entityManager.GetComponentData<PlayerCharacter>(Owner).UserEntity._Entity;
+                        Entity User = entityManager.GetComponentData<PlayerCharacter>(Owner).UserEntity;
                         ulong SteamID = entityManager.GetComponentData<User>(User).PlatformId;
                         ExperienceSystem.SetLevel(Owner, User, SteamID);
                     }

@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+﻿/*using HarmonyLib;
 using ProjectM.Gameplay.Systems;
 using RPGMods.Utils;
 using ProjectM;
@@ -8,12 +8,12 @@ using RPGMods.Systems;
 
 namespace RPGMods.Hooks
 {
-    [HarmonyPatch(typeof(HandleGameplayEventsSystem), nameof(HandleGameplayEventsSystem.OnUpdate))]
+    [HarmonyPatch(typeof(HandleGameplayEventsOnDeathSystem), nameof(HandleGameplayEventsOnDeathSystem.OnUpdate))]
     public class HandleGameplayEventsSystem_Patch
     {
         private static byte CurrentDay = 0;
         private static bool isDNInitialized = false;
-        private static void Postfix(HandleGameplayEventsSystem __instance)
+        private static void Postfix(HandleGameplayEventsOnDeathSystem __instance)
         {
             //-- Player Location Caching
             if (ExperienceSystem.isEXPActive || (PvPSystem.isHonorSystemEnabled && PvPSystem.isEnableHostileGlow && PvPSystem.isUseProximityGlow)) ProximityLoop.UpdateCache();
@@ -21,17 +21,20 @@ namespace RPGMods.Hooks
             if (PvPSystem.isHonorSystemEnabled && PvPSystem.isEnableHostileGlow && PvPSystem.isUseProximityGlow) ProximityLoop.HostileProximityGlow();
 
             //-- Day Cycle Tracking
-            var DNCycle = __instance._DayNightCycle.GetSingleton();
-            if (CurrentDay != DNCycle.GameDateTimeNow.Day)
+            var dnc = Plugin.Server.GetExistingSystem<DayNightCycleSystem>().GetSingleton<DayNightCycle>();
+
+            //var DNCycle = __instance._DayNightCycle.GetSingleton();
+
+            if (CurrentDay != dnc.GameDateTimeNow.Day)
             {
                 if (!isDNInitialized)
                 {
-                    CurrentDay = DNCycle.GameDateTimeNow.Day;
+                    CurrentDay = dnc.GameDateTimeNow.Day;
                     isDNInitialized = true;
                 }
                 else
                 {
-                    CurrentDay = DNCycle.GameDateTimeNow.Day;
+                    CurrentDay = dnc.GameDateTimeNow.Day;
                     if (WorldDynamicsSystem.isFactionDynamic) WorldDynamicsSystem.OnDayCycle();
                 }
             }
@@ -86,4 +89,4 @@ namespace RPGMods.Hooks
             }
         }
     }
-}
+}*/

@@ -12,23 +12,28 @@ namespace RPGMods.Hooks
     {
         public static bool Prefix(ChatMessageSystem __instance)
         {
-            if (__instance.__ChatMessageJob_entityQuery != null)
+            NativeArray<Entity> entities = __instance.__ChatMessageJob_entityQuery.ToEntityArray(Allocator.Temp);
+            foreach (var entity in entities)
             {
-                NativeArray<Entity> entities = __instance.__ChatMessageJob_entityQuery.ToEntityArray(Allocator.Temp);
-                foreach (var entity in entities)
-                {
-                    var fromData = __instance.EntityManager.GetComponentData<FromCharacter>(entity);
-                    var userData = __instance.EntityManager.GetComponentData<User>(fromData.User);
-                    var chatEventData = __instance.EntityManager.GetComponentData<ChatMessageEvent>(entity);
+                var fromData = __instance.EntityManager.GetComponentData<FromCharacter>(entity);
+                var userData = __instance.EntityManager.GetComponentData<User>(fromData.User);
+                var chatEventData = __instance.EntityManager.GetComponentData<ChatMessageEvent>(entity);
 
-                    var messageText = chatEventData.MessageText.ToString();
-                    if (messageText.StartsWith(CommandHandler.Prefix, System.StringComparison.Ordinal))
+                var messageText = chatEventData.MessageText.ToString();
+                if (messageText.StartsWith(CommandHandler.Prefix, System.StringComparison.Ordinal))
+                {
+                    VChatEvent ev = new VChatEvent(fromData.User, fromData.Character, messageText, chatEventData.MessageType, userData);
+                    CommandHandler.HandleCommands(ev);
+                    //__instance.EntityManager.AddComponent<DestroyTag>(entity);
+
+                    var whisperChatEvent = new ChatMessageEvent()
                     {
-                        VChatEvent ev = new VChatEvent(fromData.User, fromData.Character, messageText, chatEventData.MessageType, userData);
-                        CommandHandler.HandleCommands(ev);
-                        __instance.EntityManager.AddComponent<DestroyTag>(entity);
-                        return false;
-                    }
+                        MessageText = messageText,
+                        MessageType = ChatMessageType.Whisper,
+                        ReceiverEntity = chatEventData.ReceiverEntity
+                    };
+                    __instance.EntityManager.SetComponentData(entity, whisperChatEvent);
+                    return true;
                 }
             }
             return true;

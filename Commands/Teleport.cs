@@ -45,11 +45,11 @@ namespace RPGMods.Commands
             }
 
             var serverGameManager = Plugin.Server.GetExistingSystem<ServerScriptMapper>()?._ServerGameManager;
-            if (!serverGameManager._TeamChecker.IsAllies(user_TeamComponent, target_TeamComponent))
+            /*if (!serverGameManager._TeamChecker.IsAllies(user_TeamComponent, target_TeamComponent))
             {
                 Output.CustomErrorMessage(ctx, "Unable to teleport to player from another Clan!");
                 return;
-            }
+            }*/
 
             if (Helper.IsPlayerInCombat(TargetChar))
             {
@@ -57,7 +57,7 @@ namespace RPGMods.Commands
                 return;
             }
 
-            Helper.TeleportTo(ctx, new(target_WorldComponent.Position.x, target_WorldComponent.Position.z));
+            //Helper.TeleportTo(ctx, new(target_WorldComponent.Position.x, target_WorldComponent.Position.z));
         }
     }
 }

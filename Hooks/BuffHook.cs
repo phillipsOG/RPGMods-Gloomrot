@@ -180,7 +180,7 @@ public class ModifyUnitStatBuffSystem_Spawn_Patch
                 if (!entityManager.HasComponent<PlayerCharacter>(Owner)) continue;
 
                 PlayerCharacter playerCharacter = entityManager.GetComponentData<PlayerCharacter>(Owner);
-                Entity User = playerCharacter.UserEntity._Entity;
+                Entity User = playerCharacter.UserEntity;
                 User Data = entityManager.GetComponentData<User>(User);
 
                 var Buffer = entityManager.GetBuffer<ModifyUnitStatBuff_DOTS>(entity);
@@ -306,7 +306,7 @@ public class BuffSystem_Spawn_Server_Patch
                 if (!__instance.EntityManager.HasComponent<InCombatBuff>(entity)) continue;
                 Entity e_Owner = __instance.EntityManager.GetComponentData<EntityOwner>(entity).Owner;
                 if (!__instance.EntityManager.HasComponent<PlayerCharacter>(e_Owner)) continue;
-                Entity e_User = __instance.EntityManager.GetComponentData<PlayerCharacter>(e_Owner).UserEntity._Entity;
+                Entity e_User = __instance.EntityManager.GetComponentData<PlayerCharacter>(e_Owner).UserEntity;
 
                 if (HunterHuntedSystem.isActive)
                 {
@@ -359,7 +359,7 @@ public class Destroy_TravelBuffSystem_Patch
                     var Owner = __instance.EntityManager.GetComponentData<EntityOwner>(entity).Owner;
                     if (!__instance.EntityManager.HasComponent<PlayerCharacter>(Owner)) return;
 
-                    var userEntity = __instance.EntityManager.GetComponentData<PlayerCharacter>(Owner).UserEntity._Entity;
+                    var userEntity = __instance.EntityManager.GetComponentData<PlayerCharacter>(Owner).UserEntity;
                     var playerName = __instance.EntityManager.GetComponentData<User>(userEntity).CharacterName.ToString();
 
                     if (PvPSystem.isHonorSystemEnabled) PvPSystem.NewPlayerReceiver(userEntity, Owner, playerName);

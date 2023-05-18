@@ -2,6 +2,7 @@
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
 using BepInEx.Logging;
+using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using RPGMods.Commands;
 using RPGMods.Hooks;
@@ -9,25 +10,15 @@ using RPGMods.Systems;
 using RPGMods.Utils;
 using System.IO;
 using System.Reflection;
-using UnhollowerRuntimeLib;
 using Unity.Entities;
 using UnityEngine;
 
-#if WETSTONE
-    using Wetstone.API;
-#endif
 
 namespace RPGMods
 {
-    [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+    [BepInPlugin(BuildConfig.PackageID, BuildConfig.Name, BuildConfig.Version)]
 
-#if WETSTONE
-    [BepInDependency("xyz.molenzwiebel.wetstone")]
-    [Reloadable]
-    public class Plugin : BasePlugin, IRunOnInitialized
-#else
     public class Plugin : BasePlugin
-#endif
     {
         public static Harmony harmony;
 
@@ -244,12 +235,12 @@ namespace RPGMods
         {
             InitConfig();
             Logger = Log;
-            harmony = new Harmony(PluginInfo.PLUGIN_GUID);
+            harmony = new Harmony(BuildConfig.PackageID);
             harmony.PatchAll(Assembly.GetExecutingAssembly());
 
             TaskRunner.Initialize();
 
-            Log.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} is loaded!");
+            Log.LogInfo($"Plugin {BuildConfig.Version} is loaded!");
         }
 
         public override bool Unload()

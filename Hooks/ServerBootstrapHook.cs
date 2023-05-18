@@ -39,16 +39,16 @@ namespace RPGMods.Hooks
     //    }
     //}
 
-    [HarmonyPatch(typeof(HandleGameplayEventsSystem), nameof(HandleGameplayEventsSystem.OnUpdate))]
+   /* [HarmonyPatch(typeof(HandleGameplayEventsOnHitSystem), nameof(HandleGameplayEventsOnHitSystem.OnUpdate))]
     public class InitializationPatch
     {
         [HarmonyPostfix]
         public static void RPGMods_Initialize_Method()
         {
             Plugin.Initialize();
-            Plugin.harmony.Unpatch(typeof(HandleGameplayEventsSystem).GetMethod("OnUpdate"), typeof(InitializationPatch).GetMethod("RPGMods_Initialize_Method"));
+            Plugin.harmony.Unpatch(typeof(HandleGameplayEventsOnHitSystem).GetMethod("OnUpdate"), typeof(InitializationPatch).GetMethod("RPGMods_Initialize_Method"));
         }
-    }
+    }*/
 
     [HarmonyPatch(typeof(GameBootstrap), nameof(GameBootstrap.Start))]
     public static class GameBootstrap_Patch
